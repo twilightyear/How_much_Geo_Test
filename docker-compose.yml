@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # 백엔드 (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # 로컬 backend 코드를 컨테이너 내부로 바인드 (코드 수정 시 즉시 반영)
+      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # 프론트엔드 (React / Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      # 로컬 frontend 코드를 컨테이너 내부로 바인드
+      - ./frontend:/app
+      # 호스트의 node_modules가 컨테이너 내부를 덮어쓰지 않도록 보호
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true # 맥/윈도우 핫 리로딩 호환성 옵션
+    depends_on:
+      - backend
