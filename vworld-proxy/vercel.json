@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "api/proxy.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "destination": "api/proxy.py"
+    }
+  ]
+}
