@@ -1,15 +1,9 @@
 {
   "regions": ["icn1"],
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/proxy.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "destination": "/api/proxy.py?path=$1"
+      "source": "/:path*",
+      "destination": "/api/proxy"
     }
   ]
 }
