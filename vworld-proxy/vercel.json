@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "destination": "/api/proxy.py"
+      "destination": "/api/proxy.py?path=$1"
     }
   ]
 }
