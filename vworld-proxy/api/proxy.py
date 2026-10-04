@@ -8,15 +8,17 @@ class handler(BaseHTTPRequestHandler):
         
         parsed_path = urlparse(self.path)
         
-        # 쿼리스트링 원본을 그대로 유지하여 Vworld에 전달
-        target_url = f"https://api.vworld.kr{parsed_path.path}"
+        # 1. 경로 끝의 중복 슬래시(/) 제거
+        clean_path = parsed_path.path.rstrip('/')
+        
+        # 2. Vworld Target URL 생성
+        target_url = f"https://api.vworld.kr{clean_path}"
         if parsed_path.query:
             target_url += f"?{parsed_path.query}"
             
         print(f"[Vercel Proxy] Target URL: {target_url}")
         
         try:
-            # 브라우저 요청인 것처럼 User-Agent 및 Referer 전달
             headers = {
                 'User-Agent': self.headers.get('User-Agent', 'Mozilla/5.0'),
             }
