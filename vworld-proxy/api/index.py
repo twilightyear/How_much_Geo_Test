@@ -14,9 +14,10 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Vercel이 전달해준 원본 경로 그대로 사용
         parsed_path = urlparse(self.path)
-        upstream_path = unquote(parsed_path.path)
+        clean_path = parsed_path.path.rstrip('/')
+
+        target_url = f"https://api.vworld.kr{clean_path}"
         
-        target_url = f"https://api.vworld.kr{upstream_path}"
         if parsed_path.query:
             target_url += f"?{parsed_path.query}"
             
