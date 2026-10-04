@@ -3,54 +3,45 @@ from urllib.parse import urlparse
 import requests
 
 class handler(BaseHTTPRequestHandler):
-    # CORS 공통 헤더 설정 Helper
     def _set_cors_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
-    # 1. CORS Preflight (OPTIONS) 요청 처리
     def do_OPTIONS(self):
         self.send_response(200)
         self._set_cors_headers()
         self.end_headers()
-        return
 
-    # 2. GET 요청 처리
     def do_GET(self):
-        print(f"[Vercel Proxy] Received raw path: {self.path}")
+        print(f"[Vercel Proxy Log] Raw self.path: {self.path}")
         
         parsed_path = urlparse(self.path)
-        
-        # 경로 끝의 트레일링 슬래시(/) 제거 (예: /req/data/ -> /req/data)
         clean_path = parsed_path.path.rstrip('/')
         
-        # 원본 쿼리 스트링을 그대로 유지하여 Vworld Target URL 생성
+        # Vworld 타겟 URL 구성
         target_url = f"https://api.vworld.kr{clean_path}"
         if parsed_path.query:
             target_url += f"?{parsed_path.query}"
             
-        print(f"[Vercel Proxy] Forwarding to Target URL: {target_url}")
+        print(f"[Vercel Proxy Log] Target Vworld URL: {target_url}")
         
         try:
-            # 브라우저 요청 헤더 전달 (User-Agent, Referer)
+            # Vworld 접근 거부 방지를 위한 헤더
             headers = {
-                'User-Agent': self.headers.get('User-Agent', 'Mozilla/5.0'),
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Referer': 'https://vworld.kr'
             }
-            if self.headers.get('Referer'):
-                headers['Referer'] = self.headers.get('Referer')
 
-            # Vworld API 호출
             response = requests.get(
                 target_url,
                 headers=headers,
                 timeout=10,
-                allow_redirects=True,
+                allow_redirects=True
             )
             
-            print(f"[Vercel Proxy] Vworld Response Status: {response.status_code}")
-            
-            # 클라이언트에 응답 전달
+            print(f"[Vercel Proxy Log] Vworld Status: {response.status_code}")
+
             self.send_response(response.status_code)
             self.send_header('Content-Type', response.headers.get('Content-Type', 'application/json; charset=utf-8'))
             self._set_cors_headers()
@@ -64,4 +55,3 @@ class handler(BaseHTTPRequestHandler):
             self._set_cors_headers()
             self.end_headers()
             self.wfile.write(f'{{"error": "{str(e)}"}}'.encode('utf-8'))
-        return
