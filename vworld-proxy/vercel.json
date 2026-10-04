@@ -1,10 +1,5 @@
 {
   "regions": ["icn1"],
-  "functions": {
-    "api/proxy.py": {
-      "runtime": "@vercel/python"
-    }
-  },
   "rewrites": [
     {
       "source": "/:path*",
