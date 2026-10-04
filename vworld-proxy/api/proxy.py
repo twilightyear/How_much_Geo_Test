@@ -23,11 +23,16 @@ class handler(BaseHTTPRequestHandler):
         if "key" not in params:
             print("[Vercel Proxy Warning] 'key' parameter is missing from the request!")
 
-        target_url = "https://api.vworld.kr"
+        target_url = f"https://api.vworld.kr{parsed_path.path}"
         
         try:
             # 브이월드 API 호출 (타임아웃 10초)
-            response = requests.get(target_url, params=params, timeout=10)
+            response = requests.get(
+                target_url,
+                params=params,
+                timeout=10,
+                allow_redirects=False,
+            )
             print(f"[Vercel Proxy] Vworld Response Status: {response.status_code}")
             
             # 응답 전달
