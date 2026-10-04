@@ -31,7 +31,7 @@ class handler(BaseHTTPRequestHandler):
                 target_url,
                 params=params,
                 timeout=10,
-                allow_redirects=False,
+                allow_redirects=True,
             )
             print(f"[Vercel Proxy] Vworld Response Status: {response.status_code}")
             
