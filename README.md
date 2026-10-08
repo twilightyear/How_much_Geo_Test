@@ -24,30 +24,56 @@
 |:---------------------|:--------------------------------------------------------|
 | Frontend             | Tailwind, Typescript, Prettier, Axios, Vite             |
 | Backend              | Python, FastAPI, httpx, PostgreSQL, Redis               |
-| API                  | Kakao SDK API, V-World API, 공공데이터포털 API           |
+| API                  | Kakao SDK API, Kakao Pay API, V-World API, 공공데이터포털 API           |
 | CI/CD                | Vercel, Render, Github Action                           |
 
 # 3. 주요 기능
 - 백엔드 엔드포인트
 
-| 엔드포인트                     | 설명                                                    |
-|:-------------------------------|:--------------------------------------------------------|
-| GET /api/v1/cadastral          | 필지 조회 API                                            |
-| POST /api/v1/zone              | 슬라이더 및 기본 정보 조합 API                            |
-| POST /api/v1/contribution      | 최종 분담금 계산 API                                     |
-| POST /api/v1/user/signup       | 사용자 회원가입 API                                      |
-| POST /api/v1/user/login        | 사용자 로그인 API                                        |
-|  GET /api/v1/user/logout       | 사용자 로그아웃 API                                      |
-| GET /api/v1/user/info          | 사용자 정보 조회 API                                     |
-| POST /api/v1/news              | 지역 이름을 바탕으로 뉴스 조회 API                        |
+| 엔드포인트 라우터 카테고리        | API 엔드포인트                                                     | 설명                                                     |
+|:---------------------------|:----------------------------------------------------------------|:---------------------------------------------------------|
+| Cadastral Router           | GET /api/v1/cadastral                                           | 필지 조회 API                                              |
+| Zone Router                | POST /api/v1/zone                                               | 슬라이더 및 기본 정보 조합 API                                 |
+| Contribution Router        | POST /api/v1/contribution                                       | 최종 분담금 계산 API                                         |
+| User Router                | POST /api/v1/user/signup                                        | 사용자 회원가입 API                                          |
+| User Router                | POST /api/v1/user/login                                         | 사용자 로그인 API                                           |
+| User Router                | GET /api/v1/user/logout                                         | 사용자 로그아웃 API                                          |
+| User Router                | GET /api/v1/user/info                                           | 사용자 정보 조회 API                                         |
+| User Router                | GET /api/v1/user/credits                                        | 사용자 개인 크레딧 개수 조회 API                                |
+| User Router                | GET /api/v1/user/credits/reset                                  | 사용자 개인 크레딧 초기화 API                                  |
+| News Router                | POST /api/v1/news                                               | 지역 이름을 바탕으로 정보 검색 조회 API                          |
+| Payment Router             | POST /api/v1/kakao-pay/credits/ready                            | 개인 계정 크레딧 충전 준비 API                                 |
+| Payment Router             | GET /api/v1/kakao-pay/credits/approve                           | 개인 계정 크레딧 충전 승인 API                                 |
+| Payment Router             | GET /api/v1/kakao-pay/credits/cancel                            | 개인 계정 크레딧 충전 취소 API                                 |
+| Payment Router             | GET /api/v1/kakao-pay/credits/fail                              | 개인 계정 크레딧 충전 실패 API                                 |
+| Payment Router             | POST /api/v1/kakao-pay/plans/ready                              | 조합 plan 결제 준비 API                                     |
+| Payment Router             | GET /api/v1/kakao-pay/plans/approve                             | 조합 plan 결제 승인 API                                     |
+| Payment Router             | GET /api/v1/kakao-pay/plans/cancel                              | 조합 plan 결제 취소 API                                     |
+| Payment Router             | GET /api/v1/kakao-pay/plans/fail                                | 조합 plan 결제 실패 API                                     |
+| Organization Router        | GET /api/v1/organization/scenarios                              | 조합 내 저장된 필지 묶음 전체 조회 API                           |
+| Organization Router        | POST /api/v1/organization/scenarios                             | 조합 내 필지 묶음 저장 API                                    |
+| Organization Router        | GET /api/v1/organization/scenarios/{scenario_id}                | 조합 내 필지 묶음 중 단일 묶음 불러오기 API                       |
+| Organization Router        | DELETE /api/v1/organization/scenarios/{scenario_id}             | 조합 내 필지 묶음 중 단일 묶음 삭제 API                          |
+| Organization Router        | GET /api/v1/organization/me                                     | 가입된 조합 조회 API                                         |
+| Organization Router        | POST /api/v1/organization/join                                  | 조합 신청 API                                              |
+| Organization Router        | DELETE /api/v1/organization/leave                               | 가입된 조합 탈퇴 API                                         |
+| Organization Router        | GET /api/v1/organization/members                                | 조합내 인원 전체 조회 API                                     |
+| Organization Router        | POST /api/v1/organization/members/{member_user_id}/approve      | 조합 신청 사용자 승인 API                                     |
+| Organization Router        | DELETE /api/v1/organization/members/{member_user_id}            | 조합장의 조합 인원 삭제 API                                    |
+
+
+
+
 
 # 4. 아키텍쳐
 
 - 시스템 아키텍쳐
-<img width="1671" height="1402" alt="System Arcitecture drawio" src="https://github.com/user-attachments/assets/abbc89b0-16cf-4ba6-9382-bc892c4b1494" />
+<img width="1671" height="1632" alt="System Arcitecture drawio (1)" src="https://github.com/user-attachments/assets/ab5436aa-5638-4792-bd64-0eb82436820f" />
+
 
 - ERD
-<img width="142" height="134" alt="제목 없는 다이어그램 drawio" src="https://github.com/user-attachments/assets/f3ec0c0d-6d89-49f4-ad05-688da4c4b61b" />
+<img width="932" height="824" alt="ERD drawio (6)" src="https://github.com/user-attachments/assets/8e2aa7fd-278b-4016-873b-bba80f95888a" />
+
 
 - Directory 아키텍쳐
 ```
