@@ -13,16 +13,27 @@
 <img width="1024" height="570" alt="제목을 입력해주세요  (4)" src="https://github.com/user-attachments/assets/438b2688-6835-4e64-8358-20f1aca91e63" />
 
 # 1. 서비스 개요
-- 서비스 링크
-  - https://04-howmuch-geo-ntnl.vercel.app/
-- 서비스 설명
-  - 얼마 GEO 는 지도를 통하여 간편하게 구간에 대하여 AI 를 사용한 분담금 예측을 진행해주는 웹 서비스입니다.
+
+서비스 링크
+
+https://04-howmuch-geo-ntnl.vercel.app/
+
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/f2e79e28-a80b-43eb-9b32-c3942389596b" />
+
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/ca3d2eb0-dc67-48cc-b2ac-94ed8b1f4c2a" />
+
+<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/3892d6ff-5b4f-42f5-8bd2-446f555359b1" />
+
+<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/39a47f1c-8c52-4351-b424-a27197bdb246" />
+
+<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/f4c16b22-4408-4aaf-aca3-a4c27f3b09e6" />
+
 
 # 2. 기술 스택
 
 | 구분                 | 기술 스택                                               |
 |:---------------------|:--------------------------------------------------------|
-| Frontend             | Tailwind, Typescript, Prettier, Axios, Vite             |
+| Frontend             | Tailwind, Typescript, Axios, Vite             |
 | Backend              | Python, FastAPI, httpx, PostgreSQL, Redis               |
 | API                  | Kakao SDK API, Kakao Pay API, V-World API, 공공데이터포털 API           |
 | CI/CD                | Vercel, Render, Github Action                           |
@@ -70,7 +81,6 @@
 - 시스템 아키텍쳐
 <img width="1671" height="1632" alt="System Arcitecture drawio (1)" src="https://github.com/user-attachments/assets/ab5436aa-5638-4792-bd64-0eb82436820f" />
 
-
 - ERD
 <img width="932" height="824" alt="ERD drawio (6)" src="https://github.com/user-attachments/assets/8e2aa7fd-278b-4016-873b-bba80f95888a" />
 
@@ -78,52 +88,147 @@
 - Directory 아키텍쳐
 ```
 ├── AI
-│   ├── engine
-│   │   ├── calc.py
-│   │   ├── rental_cost.py
-│   │   ├── schema.py
-│   │   └── zone.py
-│   └── predict
-│       ├── construction_cost.py
-│       ├── data
-│       ├── predictions.py
-│       ├── sale_price.py
-│       └── trend.py
+│   ├── engine
+│   │   ├── calc.py
+│   │   ├── data
+│   │   │   └── policy_rules.json
+│   │   ├── policy.py
+│   │   ├── prior_asset.py
+│   │   ├── project_type.py
+│   │   ├── public_contribution.py
+│   │   ├── rental_cost.py
+│   │   ├── schema.py
+│   │   └── zone.py
+│   ├── maintenance
+│   │   └── policy_watch.py
+│   └── predict
+│       ├── construction_cost.py
+│       ├── data
+│       │   ├── bjdong_codes.md
+│       │   ├── cost_cases.csv
+│       │   ├── cost_index.csv
+│       │   ├── sale_cases.csv
+│       │   └── sale_index.csv
+│       ├── predictions.py
+│       ├── sale_price.py
+│       └── trend.py
+├── PIPELINE.md
+├── README.md
 ├── backend
-│   ├── Dockerfile
-│   ├── app
-│   │   ├── auth
-│   │   ├── config
-│   │   ├── core
-│   │   ├── database
-│   │   ├── exceptions
-│   │   ├── main.py
-│   │   ├── models
-│   │   ├── routers
-│   │   ├── schemas
-│   │   └── utils
-│   └── requirements.txt
+│   ├── AI
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── app
+│   │   ├── auth
+│   │   │   └── encrypt.py
+│   │   ├── cache
+│   │   │   └── redis.py
+│   │   ├── config
+│   │   │   └── engine_defaults.py
+│   │   ├── database
+│   │   │   ├── database_connection.py
+│   │   │   └── orm.py
+│   │   ├── exceptions
+│   │   │   └── exceptions_handler.py
+│   │   ├── main.py
+│   │   ├── models
+│   │   │   ├── account.py
+│   │   │   ├── credit_purchase.py
+│   │   │   ├── organization_scenario.py
+│   │   │   └── user.py
+│   │   ├── routers
+│   │   │   ├── cadastral.py
+│   │   │   ├── contribution.py
+│   │   │   ├── news.py
+│   │   │   ├── organization.py
+│   │   │   ├── payment.py
+│   │   │   ├── user.py
+│   │   │   └── zone.py
+│   │   ├── schemas
+│   │   │   ├── cadastral
+│   │   │   │   ├── cadastral_request.py
+│   │   │   │   └── cadastral_response.py
+│   │   │   ├── news
+│   │   │   │   ├── news_request.py
+│   │   │   │   └── news_response.py
+│   │   │   ├── organization_scenario.py
+│   │   │   ├── payment
+│   │   │   │   ├── payment_request.py
+│   │   │   │   └── payment_response.py
+│   │   │   ├── realestate
+│   │   │   │   ├── realestate_request.py
+│   │   │   │   └── realestate_response.py
+│   │   │   └── user
+│   │   │       ├── user_request.py
+│   │   │       └── user_response.py
+│   │   ├── services
+│   │   │   ├── building_ledger_service.py
+│   │   │   ├── credit_service.py
+│   │   │   ├── organization_service.py
+│   │   │   ├── plan_service.py
+│   │   │   └── zone_service.py
+│   │   └── utils
+│   │       └── slider_builder.py
+│   └── requirements.txt
 ├── docker-compose.yml
 ├── frontend
-│   ├── Dockerfile
-│   ├── index.html
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── public
-│   │   ├── favicon.png
-│   │   └── icons.svg
-│   ├── src
-│   │   ├── App.tsx
-│   │   ├── api
-│   │   ├── components
-│   │   ├── hooks
-│   │   ├── index.css
-│   │   ├── main.tsx
-│   │   ├── pages
-│   │   └── utils
-│   ├── tsconfig.json
-│   └── vite.config.ts
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── WARNING_COPY.md
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── banner.png
+│   │   ├── favicon.png
+│   │   ├── icon.png
+│   │   └── icons.svg
+│   ├── src
+│   │   ├── App.tsx
+│   │   ├── api
+│   │   │   ├── cadastral_api.ts
+│   │   │   ├── client.ts
+│   │   │   ├── news_api.ts
+│   │   │   ├── organization_api.ts
+│   │   │   ├── payment_api.ts
+│   │   │   ├── realestate_api.ts
+│   │   │   └── user_api.ts
+│   │   ├── components
+│   │   │   ├── ContributionPanel.tsx
+│   │   │   ├── KakaoMap.tsx
+│   │   │   ├── MapLegend.tsx
+│   │   │   ├── ModelPredictForm.tsx
+│   │   │   ├── NewsPanel.tsx
+│   │   │   ├── SideBar.tsx
+│   │   │   ├── Slider.tsx
+│   │   │   └── StartupModal.tsx
+│   │   ├── hooks
+│   │   │   ├── useContribution.ts
+│   │   │   ├── useKakaoMap.ts
+│   │   │   ├── useLoginPage.ts
+│   │   │   ├── useMainPage.ts
+│   │   │   ├── useMapDragSelect.ts
+│   │   │   ├── useModelPredictForm.ts
+│   │   │   ├── useNewsPanel.ts
+│   │   │   ├── useOrganizationPage.ts
+│   │   │   ├── useSignupPage.ts
+│   │   │   └── useSlider.ts
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   ├── CreditPurchasePage.tsx
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── MainPage.tsx
+│   │   │   ├── OrganizationPage.tsx
+│   │   │   ├── PaymentPage.tsx
+│   │   │   └── SignupPage.tsx
+│   │   └── utils
+│   │       └── parcel.ts
+│   ├── tsconfig.json
+│   └── vite.config.ts
 └── vercel.json
+
+
 ```
 
 
